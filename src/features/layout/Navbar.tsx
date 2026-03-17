@@ -1,6 +1,5 @@
-import { Button } from "./ui/button";
-import { RegisterDialog } from "./register-dialog";
-import { LoginDialog } from "./login-dialog";
+import { Button } from "@/components/ui/button";
+import { RegisterDialog, LoginDialog } from "@/features/auth";
 
 export function Navbar() {
   return (
@@ -19,3 +18,4 @@ export function Navbar() {
     </nav>
   );
 }
+

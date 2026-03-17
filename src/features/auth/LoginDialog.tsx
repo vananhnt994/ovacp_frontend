@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,11 +6,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 export function LoginDialog() {
   const [open, setOpen] = useState(false);
@@ -18,12 +19,13 @@ export function LoginDialog() {
     email: "",
     password: "",
   });
+  const { login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Hier würde die eigentliche Anmeldelogik stattfinden
-    console.log("Anmeldung:", formData);
+    // Verwende den Auth Hook für Anmeldelogik
+    login(formData.email, formData.password);
     toast.success("Erfolgreich angemeldet!");
     setOpen(false);
     setFormData({ email: "", password: "" });
@@ -77,3 +79,4 @@ export function LoginDialog() {
     </Dialog>
   );
 }
+

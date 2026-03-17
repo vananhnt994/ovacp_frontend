@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,26 +6,29 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 export function RegisterDialog() {
   const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+  const { register } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwörter stimmen nicht überein");
+      toast.error("Passwoerter stimmen nicht ueberein");
       return;
     }
 
@@ -34,11 +37,24 @@ export function RegisterDialog() {
       return;
     }
 
-    // Hier würde die eigentliche Registrierungslogik stattfinden
-    console.log("Registrierung:", formData);
-    toast.success("Registrierung erfolgreich!");
-    setOpen(false);
-    setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+    try {
+      setIsSubmitting(true);
+      const data = await register(formData.name, formData.email, formData.password);
+
+      const userId =
+        typeof data === "object" && data !== null && "id" in data
+          ? String((data as { id?: unknown }).id ?? "")
+          : "";
+
+      toast.success(userId ? `Signup erfolgreich! Deine Benutzer-ID ist: ${userId}` : "Registrierung erfolgreich!");
+      setOpen(false);
+      setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Registrierung fehlgeschlagen";
+      toast.error(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -50,7 +66,7 @@ export function RegisterDialog() {
         <DialogHeader>
           <DialogTitle>Konto erstellen</DialogTitle>
           <DialogDescription>
-            Erstellen Sie ein neues Konto für OVACP
+            Erstellen Sie ein neues Konto fuer OVACP
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -88,7 +104,7 @@ export function RegisterDialog() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirm-password">Passwort bestätigen</Label>
+            <Label htmlFor="confirm-password">Passwort bestaetigen</Label>
             <Input
               id="confirm-password"
               type="password"
@@ -98,8 +114,8 @@ export function RegisterDialog() {
               required
             />
           </div>
-          <Button type="submit" className="w-full">
-            Registrieren
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Registriere..." : "Registrieren"}
           </Button>
         </form>
       </DialogContent>

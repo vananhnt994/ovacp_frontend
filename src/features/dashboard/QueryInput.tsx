@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
-import { Card } from "./ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Card } from "@/components/ui/card";
 import { useState } from "react";
 
 interface QueryInputProps {
@@ -48,3 +48,4 @@ export function QueryInput({ onSubmit }: QueryInputProps) {
     </Card>
   );
 }
+

@@ -1,15 +1,18 @@
 import { Upload } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card } from "./ui/card";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { useState } from "react";
+import { useCsvUpload } from "@/hooks/useCsvUpload";
 
 export function CsvUpload() {
   const [fileName, setFileName] = useState<string | null>(null);
+  const { uploadCsv } = useCsvUpload();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setFileName(file.name);
+      uploadCsv(file);
     }
   };
 
@@ -41,3 +44,4 @@ export function CsvUpload() {
     </Card>
   );
 }
+

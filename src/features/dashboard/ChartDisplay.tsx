@@ -1,36 +1,7 @@
-import { Card } from "./ui/card";
+import { Card } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useMemo } from "react";
-
-const defaultData = [
-  { monat: "Jan", online: 4000, laden: 2400, telefon: 2400 },
-  { monat: "Feb", online: 3000, laden: 1398, telefon: 2210 },
-  { monat: "Mär", online: 2000, laden: 9800, telefon: 2290 },
-  { monat: "Apr", online: 2780, laden: 3908, telefon: 2000 },
-  { monat: "Mai", online: 1890, laden: 4800, telefon: 2181 },
-  { monat: "Jun", online: 2390, laden: 3800, telefon: 2500 },
-];
-
-const q1Data = [
-  { monat: "Jan", umsatz: 35000 },
-  { monat: "Feb", umsatz: 45000 },
-  { monat: "Mär", umsatz: 65000 },
-];
-
-const yearData = [
-  { monat: "Jan", umsatz: 35000 },
-  { monat: "Feb", umsatz: 45000 },
-  { monat: "Mär", umsatz: 65000 },
-  { monat: "Apr", umsatz: 55000 },
-  { monat: "Mai", umsatz: 52000 },
-  { monat: "Jun", umsatz: 68000 },
-  { monat: "Jul", umsatz: 58000 },
-  { monat: "Aug", umsatz: 51000 },
-  { monat: "Sep", umsatz: 61000 },
-  { monat: "Okt", umsatz: 59000 },
-  { monat: "Nov", umsatz: 63000 },
-  { monat: "Dez", umsatz: 72000 },
-];
+import { DEFAULT_CHART_DATA, Q1_DATA, YEAR_DATA } from "@/constants/chartData";
 
 interface ChartDisplayProps {
   query?: string;
@@ -42,7 +13,7 @@ export function ChartDisplay({ query = "" }: ChartDisplayProps) {
     
     if (lowerQuery.includes("quartal 1") || lowerQuery.includes("q1")) {
       return {
-        data: q1Data,
+        data: Q1_DATA,
         title: "Umsatz - Quartal 1 2025",
         dataKey: "umsatz"
       };
@@ -50,14 +21,14 @@ export function ChartDisplay({ query = "" }: ChartDisplayProps) {
     
     if (lowerQuery.includes("2025") && !lowerQuery.includes("quartal")) {
       return {
-        data: yearData,
+        data: YEAR_DATA,
         title: "Jahresumsatz 2025",
         dataKey: "umsatz"
       };
     }
     
     return {
-      data: defaultData,
+      data: DEFAULT_CHART_DATA,
       title: "Vertriebsanalyse - Omni-Channel",
       dataKey: null
     };
@@ -89,3 +60,4 @@ export function ChartDisplay({ query = "" }: ChartDisplayProps) {
     </Card>
   );
 }
+

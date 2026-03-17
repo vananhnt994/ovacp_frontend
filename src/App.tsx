@@ -1,9 +1,8 @@
-import { Navbar } from "./components/navbar";
-import { ChartDisplay } from "./components/chart-display";
-import { CsvUpload } from "./components/csv-upload";
-import { QueryInput } from "./components/query-input";
-import { AnalysisDisplay } from "./components/analysis-display";
-import { Toaster } from "./components/ui/sonner";
+import { Navbar } from "@/features/layout";
+import { ChartDisplay, QueryInput } from "@/features/dashboard";
+import { CsvUpload } from "@/features/csv-upload";
+import { AnalysisDisplay } from "@/features/analysis";
+import { Toaster } from "@/components/ui/sonner";
 import { useState } from "react";
 
 export default function App() {
