@@ -11,6 +11,43 @@ export interface ChartDisplayProps {
   query?: string;
 }
 
+export type ChartType = "bar" | "histogram" | "heatmap" | "pie";
+export type ChartSelectionType = ChartType | "none";
+
+export interface ChartRequest {
+  file?: string;
+  column?: string;
+  type?: ChartType;
+}
+
+export interface ChartGenerateRequest {
+  chartType: ChartType;
+  file: string;
+  column?: string;
+}
+
+export interface ChartResponse {
+  chartType: ChartType;
+  data: unknown;
+  labels?: string[];
+  title?: string;
+  [key: string]: unknown;
+}
+
+/**
+ * File & Column Types for Charts
+ */
+
+export interface FileInfo {
+  name: string;
+  size?: number;
+}
+
+export interface ColumnInfo {
+  name: string;
+  type?: string;
+}
+
 /**
  * Auth Types
  */
@@ -55,6 +92,28 @@ export interface AnalysisResult {
   timestamp?: Date;
 }
 
+export interface AnalysisChartData {
+  labels?: string[];
+  values?: number[];
+  binLabels?: string[];
+  frequencies?: number[];
+}
+
+export interface AnalysisChartOption {
+  id: string;
+  chartType: "BAR" | "HISTOGRAM" | "HEATMAP" | "PIE";
+  title: string;
+  reason?: string;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
+  data: AnalysisChartData;
+}
+
+export interface ParsedAnalysisResult {
+  analysisText: string;
+  chartOptions: AnalysisChartOption[];
+}
+
 export interface AnalysisRequest {
   query: string;
   frage?: string;
@@ -78,4 +137,3 @@ export interface CsvUploadResult {
   rowCount: number;
   success: boolean;
 }
-
