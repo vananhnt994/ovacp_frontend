@@ -15,20 +15,28 @@ import { useAuth } from "@/hooks/useAuth";
 
 export function LoginDialog() {
   const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Verwende den Auth Hook für Anmeldelogik
-    login(formData.email, formData.password);
-    toast.success("Erfolgreich angemeldet!");
-    setOpen(false);
-    setFormData({ email: "", password: "" });
+
+    try {
+      setIsSubmitting(true);
+      await login(formData.email, formData.password);
+      toast.success("Erfolgreich angemeldet!");
+      setOpen(false);
+      setFormData({ email: "", password: "" });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Anmeldung fehlgeschlagen";
+      toast.error(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -52,6 +60,7 @@ export function LoginDialog() {
               placeholder="max@beispiel.de"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              disabled={isSubmitting}
               required
             />
           </div>
@@ -63,6 +72,7 @@ export function LoginDialog() {
               placeholder="••••••••"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              disabled={isSubmitting}
               required
             />
           </div>
@@ -71,8 +81,8 @@ export function LoginDialog() {
               Passwort vergessen?
             </a>
           </div>
-          <Button type="submit" className="w-full">
-            Anmelden
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Melde an..." : "Anmelden"}
           </Button>
         </form>
       </DialogContent>

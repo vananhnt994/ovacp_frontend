@@ -8,6 +8,7 @@ import { useState } from "react";
 export default function App() {
   const [query, setQuery] = useState("");
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [uploadedFileNames, setUploadedFileNames] = useState<string[]>([]);
 
   const handleQuerySubmit = (userQuery: string) => {
     setQuery(userQuery);
@@ -21,9 +22,9 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-6 py-8">
         <div className="space-y-6">
           <ChartDisplay query={query} />
-          <CsvUpload />
+          <CsvUpload onUploadedFileNamesChange={setUploadedFileNames} />
           <QueryInput onSubmit={handleQuerySubmit} />
-          {showAnalysis && <AnalysisDisplay query={query} />}
+          {showAnalysis && <AnalysisDisplay query={query} fileNames={uploadedFileNames} />}
         </div>
       </main>
       <Toaster />

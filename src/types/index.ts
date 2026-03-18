@@ -26,10 +26,16 @@ export interface AuthCredentials {
   password: string;
 }
 
+export interface RegisterPayload extends AuthCredentials {
+  name: string;
+}
+
 export interface RegisterFormData extends AuthCredentials {
   name: string;
   confirmPassword: string;
 }
+
+export type AuthResponse = Record<string, unknown> | string | null;
 
 /**
  * Query Types
@@ -49,9 +55,23 @@ export interface AnalysisResult {
   timestamp?: Date;
 }
 
+export interface AnalysisRequest {
+  query: string;
+  frage?: string;
+  fileNames?: string[];
+  dateien?: string[];
+  model?: string;
+  modell?: string;
+  maxRows?: number;
+}
+
+export type AnalysisApiResponse = Record<string, unknown> | string | null;
+
 /**
  * CSV Upload Types
  */
+
+export type CsvUploadResponse = Record<string, unknown> | string | null;
 
 export interface CsvUploadResult {
   fileName: string;
