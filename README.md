@@ -1,6 +1,6 @@
-# OVACP Frontend
+# OCVAP Frontend
 
-Frontend für OVACP auf Basis von **Vite + React (TypeScript)**.
+Frontend für OCVAP (Omni-Channel-Vertriebsanalyse-Plattform) auf Basis von **React (TypeScript)**.
 
 ## Voraussetzungen
 
